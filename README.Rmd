@@ -1,0 +1,92 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# workspace
+
+`workspace` is an R package designed to simplify the creation and management of workspaces. Its main goal is to provide a standardized solution for organizing and sharing data in applications that require workspace management.
+
+This package is aimed at developers and analysts seeking to standardize data management in multi-environment or cross-application contexts. With `workspace`, creating, manipulating, and sharing organized archives becomes straightforward.
+
+## Key features
+
+- Generation of structured archives:
+  - Supports adding datasets in parquet format.
+  - Enables storing JSON files for semi-structured data.
+  - Handles R objects stored in RDS format.
+
+- Enhanced interoperability:
+  - Provides a well-defined and consistent structure for organizing data.
+  - Facilitates data exchange and processing across different applications or environments.
+
+- Offers tools to easily read and store data within workspaces.
+
+
+## Installation
+
+You can install the development version of workspace from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("ardata-fr/workspace")
+```
+
+## Example of workspace creation
+
+This is a basic example which shows you how to create a workspace:
+
+```{r}
+library(workspace)
+z <- new_workspace()
+
+# store datasets
+z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
+z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
+
+# store json
+json_str <- paste0("{\"first_name\": \"John\",\"last_name\": \"Smith\",\"is_alive\": true,",
+"\"age\": 27, \"address\": { \"street_address\": \"21 2nd Street\",",
+"\"city\": \"New York\",\"state\": \"NY\",\"postal_code\": \"10021-3100\"",
+"}}")
+z <- store_json(
+  x = z,
+  name = "json-example",
+  json_str = json_str,
+  filename = "json-example.json",
+  timestamp = "2023-11-12 11:37:41",
+  subdir = "blah"
+)
+
+# pack workspace as a zip to share it
+workspace_zip_file <- tempfile(fileext = ".zip")
+pack_workspace(x = z, file = workspace_zip_file)
+```
+
+## Example of workspace data extraction
+
+This is a basic example which shows you how to extract data from a workspace:
+
+```{r}
+z <- unpack_workspace(file = workspace_zip_file)
+list_object_in_workspace(z)
+
+dataset <- read_dataset_in_workspace(z, name = "mtcars")
+print(head(dataset))
+
+# store json
+json_str <- read_json_str_in_workspace(z, name = "json-example", subdir = "blah")
+substr(json_str, 1, 20) |> print()
+```
+
+
