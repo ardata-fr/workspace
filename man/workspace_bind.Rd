@@ -45,3 +45,11 @@ z <- store_rds(
 new_x <- workspace_bind(x, z)
 new_x
 }
+\seealso{
+Other functions to manage workspaces: 
+\code{\link{new_workspace}()},
+\code{\link{pack_workspace}()},
+\code{\link{unpack_workspace}()},
+\code{\link{workspace_copy}()}
+}
+\concept{functions to manage workspaces}

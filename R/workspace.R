@@ -72,6 +72,7 @@ as_workspace_structure <- function(dir, obj_desc, version) {
 #' @examples
 #' z <- new_workspace()
 #' z
+#' @family functions to manage workspaces
 new_workspace <- function(dir = tempfile(pattern = "ws")) {
 
   if (dir.exists(dir)) {
@@ -126,6 +127,7 @@ new_workspace <- function(dir = tempfile(pattern = "ws")) {
 #' )
 #' file <- tempfile(fileext = ".zip")
 #' pack_workspace(x = z, file = file)
+#' @family functions to manage workspaces
 pack_workspace <- function(x, file) {
   pack_folder(x$dir, target = file)
 }
@@ -167,6 +169,7 @@ pack_workspace <- function(x, file) {
 #'
 #' z <- unpack_workspace(file = file)
 #' z
+#' @family functions to manage workspaces
 unpack_workspace <- function(file) {
 
   dir <- tempfile(pattern = "ws")
@@ -306,6 +309,7 @@ print.workspace <- function(x, ...) {
 #' )
 #'
 #' new_z <- workspace_copy(z)
+#' @family functions to manage workspaces
 workspace_copy <- function(x) {
   file <- tempfile(fileext = ".zip")
   pack_workspace(x = x, file = file)
@@ -352,6 +356,7 @@ workspace_copy <- function(x) {
 #'
 #' new_x <- workspace_bind(x, z)
 #' new_x
+#' @family functions to manage workspaces
 workspace_bind <- function(x, y, replace = FALSE) {
 
   if (!inherits(x, "workspace")) {

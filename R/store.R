@@ -16,6 +16,7 @@
 #' z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
 #' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 #' z
+#' @family functions to write in a workspace
 store_dataset <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   base_file <- stri_trans_general(name, id = "latin-ascii")
@@ -76,6 +77,7 @@ store_dataset <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%
 #'   subdir = "blah"
 #' )
 #' z
+#' @family functions to write in a workspace
 store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   if (!is_string(json_str)) {
@@ -151,6 +153,7 @@ store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = f
 #'   subdir = "r-object"
 #' )
 #' z
+#' @family functions to write in a workspace
 store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   if (!is_string(filename)) {

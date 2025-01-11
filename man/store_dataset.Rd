@@ -31,3 +31,9 @@ z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
 z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 z
 }
+\seealso{
+Other functions to write in a workspace: 
+\code{\link{store_json}()},
+\code{\link{store_rds}()}
+}
+\concept{functions to write in a workspace}

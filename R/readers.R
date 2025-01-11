@@ -11,6 +11,7 @@
 #' z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
 #' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 #' list_object_in_workspace(z)
+#' @family functions to read in a workspace
 list_object_in_workspace <- function(x) {
   objects_descriptions <- read_objects_description(x)
   objects_descriptions
@@ -31,6 +32,7 @@ list_object_in_workspace <- function(x) {
 #' z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
 #' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 #' read_dataset_in_workspace(z, name = "mtcars")
+#' @family functions to read in a workspace
 read_dataset_in_workspace <- function(x, name) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "dataset", ]
@@ -68,6 +70,7 @@ read_dataset_in_workspace <- function(x, name) {
 #'   subdir = "r-object"
 #' )
 #' read_rds_in_workspace(z, name = "obj")
+#' @family functions to read in a workspace
 read_rds_in_workspace <- function(x, name, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "rds", ]
@@ -114,6 +117,7 @@ read_rds_in_workspace <- function(x, name, subdir = NULL) {
 #'   subdir = "blah"
 #' )
 #' read_json_str_in_workspace(z, "an_example")
+#' @family functions to read in a workspace
 read_json_str_in_workspace <- function(x, name, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "json", ]
@@ -155,6 +159,7 @@ read_json_str_in_workspace <- function(x, name, subdir = NULL) {
 #'   subdir = "r-object"
 #' )
 #' read_timestamp(z, name = "obj", type = "rds", subdir = "r-object")
+#' @family functions to read in a workspace
 read_timestamp <- function(x, name, type, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% type, ]

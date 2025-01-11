@@ -54,3 +54,9 @@ z <- store_json(
 )
 z
 }
+\seealso{
+Other functions to write in a workspace: 
+\code{\link{store_dataset}()},
+\code{\link{store_rds}()}
+}
+\concept{functions to write in a workspace}

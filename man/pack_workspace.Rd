@@ -41,3 +41,11 @@ z <- store_rds(
 file <- tempfile(fileext = ".zip")
 pack_workspace(x = z, file = file)
 }
+\seealso{
+Other functions to manage workspaces: 
+\code{\link{new_workspace}()},
+\code{\link{unpack_workspace}()},
+\code{\link{workspace_bind}()},
+\code{\link{workspace_copy}()}
+}
+\concept{functions to manage workspaces}

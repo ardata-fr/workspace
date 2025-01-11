@@ -42,3 +42,11 @@ pack_workspace(x = z, file = file)
 z <- unpack_workspace(file = file)
 z
 }
+\seealso{
+Other functions to manage workspaces: 
+\code{\link{new_workspace}()},
+\code{\link{pack_workspace}()},
+\code{\link{workspace_bind}()},
+\code{\link{workspace_copy}()}
+}
+\concept{functions to manage workspaces}

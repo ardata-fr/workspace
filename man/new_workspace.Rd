@@ -18,3 +18,11 @@ stored as parquet files.
 z <- new_workspace()
 z
 }
+\seealso{
+Other functions to manage workspaces: 
+\code{\link{pack_workspace}()},
+\code{\link{unpack_workspace}()},
+\code{\link{workspace_bind}()},
+\code{\link{workspace_copy}()}
+}
+\concept{functions to manage workspaces}

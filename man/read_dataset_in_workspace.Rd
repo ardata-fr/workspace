@@ -23,3 +23,11 @@ z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
 z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 read_dataset_in_workspace(z, name = "mtcars")
 }
+\seealso{
+Other functions to read in a workspace: 
+\code{\link{list_object_in_workspace}()},
+\code{\link{read_json_str_in_workspace}()},
+\code{\link{read_rds_in_workspace}()},
+\code{\link{read_timestamp}()}
+}
+\concept{functions to read in a workspace}
