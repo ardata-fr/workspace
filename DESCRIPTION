@@ -1,6 +1,6 @@
 Package: workspace
 Title: Workspace and Data Management Tools
-Version: 0.1.1
+Version: 0.1.1.0001
 Authors@R: c(
     person("David", "Gohel", , "david.gohel@ardata.fr", role = c("aut", "cre")),
     person("ArData", role = "cph")
