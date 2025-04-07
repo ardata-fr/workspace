@@ -100,3 +100,121 @@ json_str <- read_json_str_in_workspace(z, name = "json-example", subdir = "blah"
 substr(json_str, 1, 20) |> print()
 #> [1] "{\"first_name\": \"John"
 ```
+
+## Example Shiny app using workspace
+
+`workspace` can be useful for managing user imported datasets in Shiny
+apps. The example shows how to create, add datasets, pack and unpack the
+user’s workspace.
+
+``` r
+library(workspace)
+library(shiny)
+library(readr)
+library(shinyWidgets)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  tags$h4("Add datasets to workspace"),
+  shiny::fileInput(
+    inputId = "file",
+    label = "Upload dataset",
+    accept = c("csv")
+  ),
+  textInput(
+    inputId = "name",
+    label = "Dataset name"
+  ),
+  actionButton(
+    inputId = "new",
+    label = "Add to workspace",
+    accept = c("csv")
+  ),
+  tags$hr(),
+  tags$h4("Import/export workspace"),
+  shiny::fileInput(
+    inputId = "import",
+    label = "Import workspace",
+    accept = c("zip")
+  ),
+  downloadButton(
+    outputId = "downloadData",
+    label = "Export workspace"
+  ),
+  tags$hr(),
+  tags$h4("Display workspace"),
+  tableOutput("workspace"),
+  selectInput(
+    inputId = "selector",
+    label = "Display table preview",
+    choices = character()
+  ),
+  tableOutput("table")
+)
+
+server <- function(input, output) {
+  rv <- reactiveValues(
+    curr_dataset = NULL,
+    ws = workspace::new_workspace(),
+    summary = NULL
+  )
+
+  # Import csv file ----------
+  observe({
+    req(input$file)
+    rv$curr_dataset <- shinyWidgets::execute_safely({
+      readr::read_csv(input$file$datapath, show_col_types = FALSE)
+    })
+    updateTextInput(
+      inputId = "name",
+      value = tools::file_path_sans_ext(input$file$name)
+    )
+  })
+
+  # Add new data set to workspace
+  observeEvent(input$new, {
+    dataset <- req(rv$curr_dataset)
+    req(rv$ws)
+    rv$ws <- workspace::store_dataset(x = rv$ws, dataset = dataset, name = trimws(input$name))
+    rv$summary <- workspace::list_object_in_workspace(rv$ws)
+  })
+
+  # Display workspace metadata --------------
+  output$workspace <- renderTable({
+    req(rv$summary)
+    rv$summary
+  })
+
+  observe({
+    req(nrow(rv$summary) > 0)
+    updateSelectInput(
+      inputId = "selector",
+      choices = rv$summary$name
+    )
+  })
+
+  output$table <- renderTable({
+    req(input$selector)
+    workspace::read_dataset_in_workspace(x = rv$ws, name = input$selector) |>
+      head()
+  })
+
+  # Export workspace ------------
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("workspace-", Sys.Date(), ".zip", sep = "")
+    },
+    content = function(file) {
+      workspace::pack_workspace(x = rv$ws, file = file)
+    }
+  )
+
+  # Import workspace ----------
+  observeEvent(input$import, {
+    rv$ws <- workspace::unpack_workspace(file = input$import$datapath)
+    rv$summary <- workspace::list_object_in_workspace(rv$ws)
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
