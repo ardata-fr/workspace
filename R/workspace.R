@@ -26,7 +26,7 @@ read_objects_description <- function(x) {
     x$dir,
     paste0(.datasets_description, ".parquet")
   )
-  read_parquet(file_objects_description)
+  read_parquet(file_objects_description, mmap = FALSE)
 }
 
 create_datasets_folder <- function(x) {
@@ -200,7 +200,7 @@ unpack_workspace <- function(file) {
       dir,
       paste0(.datasets_description, ".parquet")
     )
-    objects_desc <- read_parquet(file_datasets_description)
+    objects_desc <- read_parquet(file_datasets_description, mmap = FALSE)
     unlink(file_datasets_description, force = TRUE)
     x <- as_workspace_structure(
       dir = dir,

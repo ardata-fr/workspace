@@ -45,7 +45,7 @@ read_dataset_in_workspace <- function(x, name) {
     cli_abort("Value of {.code name} is not unique in workspace.")
   }
   file <- file.path(x$dir, objs$file)
-  read_parquet(file)
+  read_parquet(file, mmap = FALSE)
 }
 
 #' @export
