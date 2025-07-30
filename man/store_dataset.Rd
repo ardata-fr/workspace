@@ -16,7 +16,8 @@ store_dataset(
 
 \item{dataset}{the data.frame to store in the workspace}
 
-\item{name}{name associated with the data.frame}
+\item{name}{name associated with the data.frame, if an workspace file with this name exists
+already it will be replaced.}
 
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }

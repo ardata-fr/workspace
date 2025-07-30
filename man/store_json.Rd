@@ -20,7 +20,8 @@ store_json(
 
 \item{filename}{The name of the file used to store the JSON string in the workspace.}
 
-\item{name}{name associated with the object}
+\item{name}{name associated with the object, if an workspace file with this name exists
+already it will be replaced.}
 
 \item{subdir}{A subdirectory within the asset directory where the JSON file will be stored.}
 

@@ -121,6 +121,10 @@ read_rds_in_workspace <- function(x, name, subdir = NULL) {
 read_json_str_in_workspace <- function(x, name, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "json", ]
+
+  if (nrow(objs) < 1) {
+    cli_abort("workspace {.arg x} has no json files to read.")
+  }
   objs <- objs[objs$name %in% name, ]
 
   if (!is.null(subdir)) {

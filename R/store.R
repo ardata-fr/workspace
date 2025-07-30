@@ -7,7 +7,8 @@
 #' Store a dataset as a parquet file into an existing workspace.
 #' @param x the workspace object
 #' @param dataset the data.frame to store in the workspace
-#' @param name name associated with the data.frame
+#' @param name name associated with the data.frame, if an workspace file with this name exists
+#' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @examples
 #' library(workspace)
@@ -94,7 +95,8 @@ delete_dataset <- function(x, data_name) {
 #' @param x The workspace object.
 #' @param json_str The JSON string to save in the workspace.
 #' @param filename The name of the file used to store the JSON string in the workspace.
-#' @param name name associated with the object
+#' @param name name associated with the object, if an workspace file with this name exists
+#' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the JSON file will be stored.
 #' @return return the workspace object
@@ -175,7 +177,8 @@ store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = f
 #' @param x The workspace object.
 #' @param obj The R object to save as an RDS file.
 #' @param filename The name of the file used to store the RDS file in the workspace.
-#' @param name name associated with the object
+#' @param name name associated with the object, if an workspace file with this name exists
+#' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the RDS file will be stored.
 #' @return return the workspace object
@@ -223,7 +226,7 @@ store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(
 
   objects_desc <- dataset_description(
     file = file.path(.assets_directory, subdir, filename),
-    name = file_path_sans_ext(filename),
+    name = name,
     subdir = subdir,
     type = "rds",
     timestamp = timestamp

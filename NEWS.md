@@ -1,3 +1,10 @@
+# workspace 0.1.3
+
+## Tests
+
+- greatly increase test coverage (from zero).
+
+
 # workspace 0.1.2
 
 ## Features
