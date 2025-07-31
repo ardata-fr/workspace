@@ -6,9 +6,16 @@
 #' @description
 #' Store a dataset as a parquet file into an existing workspace.
 #' @param x the workspace object
-#' @param dataset the data.frame to store in the workspace
-#' @param name name associated with the data.frame
+#' @param dataset the data.frame or sf to store in the workspace.
+#' @param name name associated with the data.frame, if an workspace file with this name exists
+#' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
+#' @details
+#'
+#' If the input dataset is `sf` then a metadata yaml file is also written to the workspace
+#' in the `assets/sf_metadata/{name}.yaml` location. This contains the `sf` column name
+#' and the CRS that can be overidden when writing .gpkg data to disk.
+#'
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -18,16 +25,17 @@
 #' z
 #' @family functions to write in a workspace
 store_dataset <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
+  UseMethod("store_dataset", dataset)
+}
 
+#' @export
+store_dataset.data.frame <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
   base_file <- stri_trans_general(name, id = "latin-ascii")
-
   contains_parquet_ext <- grepl(pattern = "\\.parquet", x = base_file, ignore.case = TRUE)
   if (!contains_parquet_ext) {
     base_file <- paste0(base_file, ".parquet")
   }
-
   filepath <- file.path(x$dir, .datasets_directory, base_file)
-
   write_parquet(dataset, filepath)
   objects_desc <- dataset_description(
     file = file.path(.datasets_directory, base_file),
@@ -36,51 +44,65 @@ store_dataset <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%
     type = "dataset",
     timestamp = timestamp
   )
-
   objects_descriptions <- read_objects_description(x)
   objects_descriptions <- rows_upsert(objects_descriptions, objects_desc, by = "name")
   save_objects_description(x, objs_desc = objects_descriptions)
-
   x
 }
 
 #' @export
-#' @importFrom dplyr filter
-#' @title Delete a dataset from a workspace
-#' @description
-#' Delete a dataset stored in a workspace.
-#' This function removes the dataset file and updates the workspace's object descriptions.
-#' @param x The workspace object.
-#' @param data_name The name of the dataset to delete from the workspace.
-#' @return return the workspace object
-#' @examples
-#' library(workspace)
-#' dir_tmp <- tempfile(pattern = "ws")
-#' z <- new_workspace(dir = dir_tmp)
-#' z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
-#' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
-#' z <- delete_dataset(x = z, data_name = "iris_dataset")
-#' z
-#' @family functions to write in a workspace
-delete_dataset <- function(x, data_name) {
+#' @importFrom yaml write_yaml
+store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
-  base_file <- stri_trans_general(data_name, id = "latin-ascii")
+  if (!requireNamespace("sf", quietly = TRUE)) {
+    cli_abort("{.val sf} package must be installed to store dataset of type {.cls sf}.")
+  }
 
-  contains_parquet_ext <- grepl(pattern = "\\.parquet", x = base_file, ignore.case = TRUE)
-  if (!contains_parquet_ext) {
-    base_file <- paste0(base_file, ".parquet")
+  base_file <- stri_trans_general(name, id = "latin-ascii")
+  contains_geo_ext <- grepl(
+    pattern = "\\.(gpkg|shp|geojson)$", x = base_file, ignore.case = TRUE)
+  if (!contains_geo_ext) {
+    base_file <- paste0(base_file, ".gpkg")
+  } else {
+    if (grepl(pattern = "\\.(shp|geojson)$", x = base_file, ignore.case = TRUE)) {
+      cli_warn("{.val .shp} or {.val .geojson} extension detected in {.arg name}, file will be writen in {.arg .gpkg} format.")
+    }
+    base_file <- gsub(
+      pattern = "\\.(gpkg|shp|geojson)$",
+      replacement = ".gpkg",
+      x = base_file,
+      ignore.case = TRUE
+    )
   }
   filepath <- file.path(x$dir, .datasets_directory, base_file)
-  if (file.exists(filepath)) {
-    unlink(filepath, force = TRUE)
-  }
 
+  sf::st_write(dataset, filepath, quiet = TRUE, delete_dsn = TRUE)
+
+  objects_desc <- dataset_description(
+    file = file.path(.datasets_directory, base_file),
+    subdir = .geospatial_directory,
+    name = name,
+    type = "geospatial",
+    timestamp = timestamp
+  )
   objects_descriptions <- read_objects_description(x)
-  objects_descriptions <- filter(.data = objects_descriptions, !.data$name %in% data_name)
+  objects_descriptions <- rows_upsert(objects_descriptions, objects_desc, by = "name")
   save_objects_description(x, objs_desc = objects_descriptions)
 
+   # Store metadata for read_dataset_in_workspace()
+  # Using gpkg means geometry col is written as geom (not ideal)
+  # https://github.com/r-spatial/sf/issues/719
+  sf_metadata = list(
+    sf_column = attr(dataset, "sf_column"),
+    crs = sf::st_crs(dataset)$input
+  )
+  yaml_file <- gsub("\\.gpkg$", ".yaml", base_file)
+  yaml_file <- file.path(x$dir, .assets_directory, "sf_metadata", yaml_file)
+  dir.create(dirname(yaml_file), showWarnings = FALSE, recursive = TRUE)
+  yaml::write_yaml(x = sf_metadata,file = yaml_file)
   x
 }
+
 
 #' @export
 #' @importFrom tools file_path_sans_ext
@@ -94,7 +116,8 @@ delete_dataset <- function(x, data_name) {
 #' @param x The workspace object.
 #' @param json_str The JSON string to save in the workspace.
 #' @param filename The name of the file used to store the JSON string in the workspace.
-#' @param name name associated with the object
+#' @param name name associated with the object, if an workspace file with this name exists
+#' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the JSON file will be stored.
 #' @return return the workspace object
@@ -175,7 +198,8 @@ store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = f
 #' @param x The workspace object.
 #' @param obj The R object to save as an RDS file.
 #' @param filename The name of the file used to store the RDS file in the workspace.
-#' @param name name associated with the object
+#' @param name name associated with the object, if an workspace file with this name exists
+#' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the RDS file will be stored.
 #' @return return the workspace object
@@ -223,9 +247,101 @@ store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(
 
   objects_desc <- dataset_description(
     file = file.path(.assets_directory, subdir, filename),
-    name = file_path_sans_ext(filename),
+    name = name,
     subdir = subdir,
     type = "rds",
+    timestamp = timestamp
+  )
+
+  objects_descriptions <- read_objects_description(x)
+  objects_descriptions <- rows_upsert(objects_descriptions, objects_desc, by = "name")
+  save_objects_description(x, objs_desc = objects_descriptions)
+
+  x
+}
+
+#' @export
+#' @importFrom tools file_path_sans_ext
+#' @importFrom rlang is_list
+#' @importFrom yaml write_yaml
+#' @title Store a list as YAML in a workspace
+#' @description
+#' Saves a list object as a YAML file in an existing workspace.
+#'
+#' This function allows users to save R list objects as YAML files into a specified workspace.
+#' The file is saved under the provided filename and can be organized within
+#' a specific subdirectory for better management.
+#' @param x The workspace object.
+#' @param list The R list object to save as YAML in the workspace.
+#' @param filename The name of the file used to store the YAML file in the workspace.
+#' @param name name associated with the object, if a workspace file with this name exists
+#' already it will be replaced.
+#' @param timestamp A timestamp string to associate with the entry in the workspace.
+#' @param subdir A subdirectory within the asset directory where the YAML file will be stored.
+#' @return return the workspace object
+#' @examples
+#' library(workspace)
+#' dir_tmp <- tempfile(pattern = "ws")
+#' z <- new_workspace(dir = dir_tmp)
+#'
+#' config_list <- list(
+#'   database = list(
+#'     host = "localhost",
+#'     port = 5432,
+#'     name = "mydb"
+#'   ),
+#'   settings = list(
+#'     debug = TRUE,
+#'     max_connections = 100
+#'   )
+#' )
+#' z <- store_yaml(
+#'   x = z,
+#'   list = config_list,
+#'   filename = "config.yaml",
+#'   timestamp = "2023-11-12 11:37:41",
+#'   subdir = "configs"
+#' )
+#' z
+#' @family functions to write in a workspace
+store_yaml <- function(x, list, filename, name = NULL, subdir, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
+
+  if (!inherits(list, 'list')) {
+    cli_abort("Argument {.code list} must be a {.cls list} object.")
+  }
+  if (!is_string(filename)) {
+    cli_abort("Argument {.code filename} must be a single character string.")
+  }
+  if (!is_string(timestamp)) {
+    cli_abort("Argument {.code timestamp} must be a single character string.")
+  }
+  if (!is_string(subdir)) {
+    cli_abort("Argument {.code subdir} must be a single character string.")
+  }
+
+  contains_yaml_ext <- grepl(pattern = "\\.yaml", x = filename, ignore.case = TRUE)
+  if (!contains_yaml_ext) {
+    filename <- paste0(filename, ".yaml")
+  }
+
+  if (is.null(name)) {
+    name <- file_path_sans_ext(filename)
+  }
+  if (!is_string(name)) {
+    cli_abort("Argument {.code name} must be a single character string.")
+  }
+
+  yaml_filepath <- file.path(x$dir, .assets_directory, subdir, filename)
+
+  dir.create(path = dirname(yaml_filepath), showWarnings = FALSE, recursive = TRUE)
+
+  yaml::write_yaml(list, yaml_filepath)
+
+  objects_desc <- dataset_description(
+    file = file.path(.assets_directory, subdir, filename),
+    subdir = subdir,
+    name = name,
+    type = "yaml",
     timestamp = timestamp
   )
 

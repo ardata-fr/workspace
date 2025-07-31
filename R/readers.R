@@ -35,7 +35,7 @@ list_object_in_workspace <- function(x) {
 #' @family functions to read in a workspace
 read_dataset_in_workspace <- function(x, name) {
   objs <- list_object_in_workspace(x)
-  objs <- objs[objs$type %in% "dataset", ]
+  objs <- objs[objs$type %in% c("dataset", "geospatial"), ]
   objs <- objs[objs$name %in% name, ]
 
   if (nrow(objs) < 1) {
@@ -45,7 +45,35 @@ read_dataset_in_workspace <- function(x, name) {
     cli_abort("Value of {.code name} is not unique in workspace.")
   }
   file <- file.path(x$dir, objs$file)
-  read_parquet(file, mmap = FALSE)
+
+  if (objs$type %in% "dataset"){
+    read_parquet(file, mmap = FALSE)
+
+  } else if (objs$type %in% "geospatial") {
+
+    if (!requireNamespace("sf", quietly = TRUE)) {
+      cli_abort("{.val sf} package must be installed to store dataset of type {.cls sf}.")
+    }
+
+    geo_sf <- sf::st_read(file, geometry_column = "geom", quiet = TRUE)
+
+    # Using gpkg means geometry col is written as geom (not ideal)
+    # https://github.com/r-spatial/sf/issues/719
+    yaml_relative <- file.path(.assets_directory, "sf_metadata", paste0(name, '.yaml'))
+    yaml_abs <- file.path(x$dir, yaml_relative)
+    if (file.exists(yaml_abs)) {
+      metadata <- yaml::read_yaml(yaml_abs)
+      sf::st_geometry(geo_sf) <- metadata$sf_column
+      sf::st_crs(geo_sf) <- metadata$crs
+      geo_sf
+    } else {
+      cli_warn(paste(
+        "No {.arg sf_metadata} file found for name: {.val name}.",
+        "Geometry column and project may have changed since data was stored."
+      ))
+      geo_sf
+    }
+  }
 }
 
 #' @export
@@ -121,6 +149,10 @@ read_rds_in_workspace <- function(x, name, subdir = NULL) {
 read_json_str_in_workspace <- function(x, name, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "json", ]
+
+  if (nrow(objs) < 1) {
+    cli_abort("workspace {.arg x} has no json files.")
+  }
   objs <- objs[objs$name %in% name, ]
 
   if (!is.null(subdir)) {
@@ -137,6 +169,66 @@ read_json_str_in_workspace <- function(x, name, subdir = NULL) {
   str <- readLines(file, encoding = "UTF-8")
   paste0(str, collapse = "")
 }
+
+#' @importFrom yaml read_yaml
+#' @export
+#' @title Read YAML Object from a Workspace.
+#' @description
+#' Read a YAML file stored as a list object in a workspace.
+#' Returns the YAML content as an R list object.
+#' @param x the workspace
+#' @param name name associated with the YAML file stored in the workspace
+#' @param subdir Optional subdirectory used for the asset to retrieve
+#' @examples
+#' library(workspace)
+#' dir_tmp <- tempfile(pattern = "ws")
+#' z <- new_workspace(dir = dir_tmp)
+#'
+#' config_list <- list(
+#'   database = list(
+#'     host = "localhost",
+#'     port = 5432
+#'   ),
+#'   settings = list(
+#'     debug = TRUE,
+#'     max_connections = 100
+#'   )
+#' )
+#' z <- store_yaml(
+#'   x = z,
+#'   list = config_list,
+#'   filename = "config.yaml",
+#'   name = "app_config",
+#'   timestamp = "2023-11-12 11:37:41",
+#'   subdir = "configs"
+#' )
+#' read_yaml_in_workspace(z, "app_config", subdir = "configs")
+#' @family functions to read in a workspace
+read_yaml_in_workspace <- function(x, name, subdir = NULL) {
+
+  objs <- list_object_in_workspace(x)
+  objs <- objs[objs$type %in% "yaml", ]
+
+  if (nrow(objs) < 1) {
+    cli_abort("workspace {.arg x} has no yaml files.")
+  }
+  objs <- objs[objs$name %in% name, ]
+
+  if (!is.null(subdir)) {
+    objs <- objs[objs$subdir %in% subdir, ]
+  }
+
+  if (nrow(objs) < 1) {
+    cli_abort("Value of {.code name} cannot be found in workspace.")
+  }
+  if (nrow(objs) > 1) {
+    cli_abort("Value of {.code name} is not unique in workspace.")
+  }
+  file <- file.path(x$dir, objs$file)
+  yaml_list <- yaml::read_yaml(file)
+  yaml_list
+}
+
 
 #' @export
 #' @title Read Timestamp associated with a content of a Workspace.
@@ -163,6 +255,9 @@ read_json_str_in_workspace <- function(x, name, subdir = NULL) {
 read_timestamp <- function(x, name, type, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% type, ]
+  if (nrow(objs) < 1) {
+    cli_abort("Value of {.code type} cannot be found in workspace.")
+  }
   objs <- objs[objs$name %in% name, ]
 
   if (!is.null(subdir)) {

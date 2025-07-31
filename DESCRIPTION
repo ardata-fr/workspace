@@ -1,8 +1,9 @@
 Package: workspace
 Title: Workspace and Data Management Tools
-Version: 0.1.2
+Version: 0.1.3.002
 Authors@R: c(
-    person("David", "Gohel", , "david.gohel@ardata.fr", role = c("aut", "cre")),
+    person("Eli", "Daniels", , "eli.daniels@ardata.fr", role = c("aut", "cre")),
+    person("David", "Gohel", , "david.gohel@ardata.fr", role = c("aut")),
     person("ArData", role = "cph")
   )
 Description: This package provides tools for managing R workspaces and
@@ -22,7 +23,12 @@ Imports:
     tibble,
     tools,
     utils,
-    zip
+    zip,
+    yaml
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0),
+    sf
+Config/testthat/edition: 3

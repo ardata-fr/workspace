@@ -14,14 +14,20 @@ store_dataset(
 \arguments{
 \item{x}{the workspace object}
 
-\item{dataset}{the data.frame to store in the workspace}
+\item{dataset}{the data.frame or sf to store in the workspace.}
 
-\item{name}{name associated with the data.frame}
+\item{name}{name associated with the data.frame, if an workspace file with this name exists
+already it will be replaced.}
 
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }
 \description{
 Store a dataset as a parquet file into an existing workspace.
+}
+\details{
+If the input dataset is \code{sf} then a metadata yaml file is also written to the workspace
+in the \verb{assets/sf_metadata/\{name\}.yaml} location. This contains the \code{sf} column name
+and the CRS that can be overidden when writing .gpkg data to disk.
 }
 \examples{
 library(workspace)
@@ -35,6 +41,7 @@ z
 Other functions to write in a workspace: 
 \code{\link{delete_dataset}()},
 \code{\link{store_json}()},
-\code{\link{store_rds}()}
+\code{\link{store_rds}()},
+\code{\link{store_yaml}()}
 }
 \concept{functions to write in a workspace}
