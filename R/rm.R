@@ -79,3 +79,42 @@ rm_object_in_workspace <- function(x, name, type, subdir = NULL) {
 
   x
 }
+
+
+#' @export
+#' @importFrom dplyr filter
+#' @title Delete a dataset from a workspace
+#' @description
+#' Delete a dataset stored in a workspace.
+#' This function removes the dataset file and updates the workspace's object descriptions.
+#' @param x The workspace object.
+#' @param data_name The name of the dataset to delete from the workspace.
+#' @return return the workspace object
+#' @examples
+#' library(workspace)
+#' dir_tmp <- tempfile(pattern = "ws")
+#' z <- new_workspace(dir = dir_tmp)
+#' z <- store_dataset(x = z, dataset = iris, name = "iris_dataset")
+#' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
+#' z <- delete_dataset(x = z, data_name = "iris_dataset")
+#' z
+#' @family functions to write in a workspace
+delete_dataset <- function(x, data_name) {
+
+  base_file <- stri_trans_general(data_name, id = "latin-ascii")
+
+  contains_parquet_ext <- grepl(pattern = "\\.parquet", x = base_file, ignore.case = TRUE)
+  if (!contains_parquet_ext) {
+    base_file <- paste0(base_file, ".parquet")
+  }
+  filepath <- file.path(x$dir, .datasets_directory, base_file)
+  if (file.exists(filepath)) {
+    unlink(filepath, force = TRUE)
+  }
+
+  objects_descriptions <- read_objects_description(x)
+  objects_descriptions <- filter(.data = objects_descriptions, !.data$name %in% data_name)
+  save_objects_description(x, objs_desc = objects_descriptions)
+
+  x
+}

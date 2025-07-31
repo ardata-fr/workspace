@@ -3,6 +3,7 @@
 ## static names -----
 .datasets_description <- "dataset_description"
 .datasets_directory <- "datasets"
+.geospatial_directory <- "geospatial"
 .assets_directory <- "assets"
 .version_file <- "version"
 
