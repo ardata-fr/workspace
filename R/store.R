@@ -103,6 +103,74 @@ store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%
   x
 }
 
+#' @export
+#' @importFrom yaml write_yaml
+#' @title Store a raster dataset into a workspace
+#' @description
+#' Store a SpatRaster object as a TIFF file into an existing workspace.
+#' @param x the workspace object
+#' @param dataset the SpatRaster object to store in the workspace.
+#' @param name name associated with the SpatRaster, if a workspace file with this name exists
+#' already it will be replaced.
+#' @param timestamp A timestamp string to associate with the entry in the workspace.
+#' @examples
+#' library(workspace)
+#' dir_tmp <- tempfile(pattern = "ws")
+#' z <- new_workspace(dir = dir_tmp)
+#' # Create example raster (requires terra package)
+#' if (requireNamespace("terra", quietly = TRUE)) {
+#'   r <- terra::rast(ncols=10, nrows=10, vals=1:100)
+#'   z <- store_raster(x = z, dataset = r, name = "example_raster")
+#'   z
+#' }
+#' @family functions to write in a workspace
+store_raster <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
+
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    cli_abort("{.val terra} package must be installed to store dataset of type {.cls SpatRaster}.")
+  }
+  base_file <- stri_trans_general(name, id = "latin-ascii")
+  contains_raster_ext <- grepl(
+    pattern = "\\.(tiff|tif|tff)$", x = base_file, ignore.case = TRUE)
+  if (!contains_raster_ext) {
+    base_file <- paste0(base_file, ".tiff")
+  }
+  filepath <- file.path(x$dir, .datasets_directory, base_file)
+  terra::writeRaster(
+    x = dataset,
+    filename = filepath,
+    overwrite = TRUE
+    )
+
+  objects_desc <- dataset_description(
+    file = file.path(.datasets_directory, base_file),
+    subdir = .raster_directory,
+    name = name,
+    type = "raster",
+    timestamp = timestamp
+  )
+  objects_descriptions <- read_objects_description(x)
+  objects_descriptions <- rows_upsert(objects_descriptions, objects_desc, by = "name")
+  save_objects_description(x, objs_desc = objects_descriptions)
+
+  # Store metadata for read_raster_in_workspace()
+  # TIFF format may not preserve all CRS information perfectly
+  raster_metadata = list(
+    crs = terra::crs(dataset),
+    nlyr = terra::nlyr(dataset),
+    names = names(dataset)
+  )
+  yaml_file <- gsub("\\.(tiff|tif|tff)$", ".yaml", base_file)
+  yaml_file <- file.path(x$dir, .assets_directory, "raster_metadata", yaml_file)
+  dir.create(dirname(yaml_file), showWarnings = FALSE, recursive = TRUE)
+  yaml::write_yaml(x = raster_metadata, file = yaml_file)
+  x
+}
+
+#' @export
+store_dataset.SpatRaster <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
+  store_raster(x, dataset, name, timestamp)
+}
 
 #' @export
 #' @importFrom tools file_path_sans_ext

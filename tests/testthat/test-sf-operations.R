@@ -380,19 +380,18 @@ test_that("read_dataset_in_workspace handles empty sf objects", {
 test_that("read_dataset_in_workspace tracks metadata properly", {
   skip_if_not_installed("sf")
 
-  library(sf)
-  z <- new_workspace()
+  z <- workspace::new_workspace()
 
-  points <- st_sfc(st_point(c(10, 20)), st_point(c(30, 40)), crs = st_crs(4326))
-  original_sf <- st_sf(
+  points <- sf::st_sfc(sf::st_point(c(10, 20)), sf::st_point(c(30, 40)), crs = sf::st_crs(4326))
+  original_sf <- sf::st_sf(
     id = 1:2,
     name = c("A", "B"),
     funky_geometry_name = points
     )
-  z <- store_dataset(z, original_sf, "geospatial_data")
+  z <- workspace::store_dataset(z, original_sf, "geospatial_data")
 
   # Read back empty sf object
-  retrieved_sf <- read_dataset_in_workspace(z, "geospatial_data")
+  retrieved_sf <- workspace::read_dataset_in_workspace(z, "geospatial_data")
 
   expect_s3_class(retrieved_sf, "sf")
   expect_equal(nrow(retrieved_sf), 2)

@@ -54,6 +54,7 @@ Other functions to write in a workspace:
 \code{\link{delete_dataset}()},
 \code{\link{store_dataset}()},
 \code{\link{store_json}()},
+\code{\link{store_raster}()},
 \code{\link{store_yaml}()}
 }
 \concept{functions to write in a workspace}

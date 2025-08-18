@@ -36,6 +36,7 @@ Other functions to read in a workspace:
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_dataset_in_workspace}()},
 \code{\link{read_json_str_in_workspace}()},
+\code{\link{read_raster_in_workspace}()},
 \code{\link{read_timestamp}()},
 \code{\link{read_yaml_in_workspace}()}
 }

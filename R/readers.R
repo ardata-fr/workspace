@@ -52,7 +52,7 @@ read_dataset_in_workspace <- function(x, name) {
   } else if (objs$type %in% "geospatial") {
 
     if (!requireNamespace("sf", quietly = TRUE)) {
-      cli_abort("{.val sf} package must be installed to store dataset of type {.cls sf}.")
+      cli_abort("{.val sf} package must be installed to read geospatial datasets.")
     }
 
     geo_sf <- sf::st_read(file, geometry_column = "geom", quiet = TRUE)
@@ -68,12 +68,69 @@ read_dataset_in_workspace <- function(x, name) {
       geo_sf
     } else {
       cli_warn(paste(
-        "No {.arg sf_metadata} file found for name: {.val name}.",
+        "No {.arg sf_metadata} file found for name: {.val {name}}.",
         "Geometry column and project may have changed since data was stored."
       ))
       geo_sf
     }
   }
+}
+
+#' @export
+#' @title Read a raster from a workspace
+#' @description
+#' Read a raster dataset stored as a TIFF file in a workspace.
+#' @param x the workspace object
+#' @param name name of the raster dataset stored in the workspace
+#' @examples
+#' library(workspace)
+#' dir_tmp <- tempfile(pattern = "ws")
+#' z <- new_workspace(dir = dir_tmp)
+#' # Create and store example raster (requires terra package)
+#' if (requireNamespace("terra", quietly = TRUE)) {
+#'   r <- terra::rast(ncols=10, nrows=10, vals=1:100)
+#'   z <- store_raster(x = z, dataset = r, name = "example_raster")
+#'   retrieved_raster <- read_raster_in_workspace(z, name = "example_raster")
+#'   retrieved_raster
+#' }
+#' @family functions to read in a workspace
+read_raster_in_workspace <- function(x, name) {
+
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    cli_abort("{.val terra} package must be installed to read raster data.")
+  }
+  objs <- list_object_in_workspace(x)
+  objs <- objs[objs$type %in% c("raster"), ]
+  objs <- objs[objs$name %in% name, ]
+
+  if (nrow(objs) < 1) {
+    cli_abort("Value of {.code name} cannot be found in workspace.")
+  }
+  if (nrow(objs) > 1) {
+    cli_abort("Value of {.code name} is not unique in workspace.")
+  }
+  file <- file.path(x$dir, objs$file)
+  raster_data <- terra::rast(file)
+
+  # Restore metadata from YAML file if it exists
+  yaml_relative <- file.path(.assets_directory, "raster_metadata", paste0(name, '.yaml'))
+  yaml_abs <- file.path(x$dir, yaml_relative)
+  if (file.exists(yaml_abs)) {
+    metadata <- yaml::read_yaml(yaml_abs)
+    if (!is.null(metadata$crs) && metadata$crs != "") {
+      terra::crs(raster_data) <- metadata$crs
+    }
+    if (!is.null(metadata$names) && length(metadata$names) == terra::nlyr(raster_data)) {
+      names(raster_data) <- metadata$names
+    }
+  } else {
+    cli_warn(paste(
+      "No raster metadata file found for name: {.val {name}}.",
+      "CRS and layer names may have changed since data was stored."
+    ))
+  }
+
+  raster_data
 }
 
 #' @export

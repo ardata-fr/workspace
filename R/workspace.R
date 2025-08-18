@@ -4,6 +4,7 @@
 .datasets_description <- "dataset_description"
 .datasets_directory <- "datasets"
 .geospatial_directory <- "geospatial"
+.raster_directory <- "raster"
 .assets_directory <- "assets"
 .version_file <- "version"
 
