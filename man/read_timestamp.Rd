@@ -15,6 +15,9 @@ read_timestamp(x, name, type, subdir = NULL)
 
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
+\value{
+character string of timestamp
+}
 \description{
 Read a timestamp associated with a content located in a Workspace.
 }

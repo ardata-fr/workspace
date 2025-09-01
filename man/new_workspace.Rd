@@ -7,7 +7,10 @@
 new_workspace(dir = tempfile(pattern = "ws"))
 }
 \arguments{
-\item{dir}{directory used to store datasets}
+\item{dir}{directory used to store datasets, by default uses temporary directory.}
+}
+\value{
+an empty workspace object.
 }
 \description{
 Create a new workspace, i.e. an object made of an

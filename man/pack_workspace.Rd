@@ -7,9 +7,12 @@
 pack_workspace(x, file)
 }
 \arguments{
-\item{x}{workspace to pack}
+\item{x}{workspace object to pack.}
 
-\item{file}{File to produce from the workspace}
+\item{file}{file path to new compressed file.}
+}
+\value{
+path to created compressed file.
 }
 \description{
 Pack a workspace into a compressed file.

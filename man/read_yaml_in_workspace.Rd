@@ -13,6 +13,9 @@ read_yaml_in_workspace(x, name, subdir = NULL)
 
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
+\value{
+a list
+}
 \description{
 Read a YAML file stored as a list object in a workspace.
 Returns the YAML content as an R list object.

@@ -69,7 +69,8 @@ as_workspace_structure <- function(dir, obj_desc, version) {
 #' Create a new workspace, i.e. an object made of an
 #' R environment and a directory where datasets will be
 #' stored as parquet files.
-#' @param dir directory used to store datasets
+#' @param dir directory used to store datasets, by default uses temporary directory.
+#' @return an empty workspace object.
 #' @export
 #' @examples
 #' z <- new_workspace()
@@ -101,8 +102,9 @@ new_workspace <- function(dir = tempfile(pattern = "ws")) {
 #' @title Pack a workspace
 #' @description
 #' Pack a workspace into a compressed file.
-#' @param x workspace to pack
-#' @param file File to produce from the workspace
+#' @param x workspace object to pack.
+#' @param file file path to new compressed file.
+#' @return path to created compressed file.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -285,6 +287,7 @@ print.workspace <- function(x, ...) {
 #' defined in a temporary directory that will be removed when
 #' R session will be stopped.
 #' @param x the workspace to copy
+#' @return New workspace copy
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -331,6 +334,7 @@ workspace_copy <- function(x) {
 #' @param y the workspace to add to `x` workspace
 #' @param replace scalar logical, set to TRUE if you want to
 #' overwrite existing elements.
+#' @return workspace object resulting from bind operation.
 #' @examples
 #' library(workspace)
 #' x <- new_workspace()

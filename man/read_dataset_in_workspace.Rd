@@ -11,6 +11,10 @@ read_dataset_in_workspace(x, name)
 
 \item{name}{name of the dataset stored in the workspace}
 }
+\value{
+a \code{tibble} if the dataset is stored as parquet, and a
+\code{sf} object if it is stored as a geospatial dataset.
+}
 \description{
 Read a table from a dataset stored as parquet file
 in a workspace.

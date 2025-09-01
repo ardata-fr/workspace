@@ -15,6 +15,9 @@ rm_object_in_workspace(x, name, type, subdir = NULL)
 
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
+\value{
+workspace object resulting from operation.
+}
 \description{
 Remove an object stored in a workspace.
 }

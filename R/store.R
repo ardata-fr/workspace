@@ -4,18 +4,29 @@
 #' @export
 #' @title Store a dataset into a workspace
 #' @description
-#' Store a dataset as a parquet file into an existing workspace.
+#' Store a dataset in an existing workspace. The file format used depends on the
+#' class of dataset.
+#'
+#' -  `data.frame` is written as a Parquet using the `arrow` package.
+#' -  `sf` is written as a geopackage file (.gpkg) using the `sf` package.
+#' -  `splatRaster` is written as a TIFF file (.tiff) format using `terra` package.
+#'
+#' @section Geospatial data:
+#'
+#' To store raster data, ensure  that `terra` is installed. To store geospatial vector
+#' and polygon data, ensure that `sf` is installed.
+#'
+#' Storing geospatial vector and polygon data will also create an accompanying
+#' metadata yaml file in the `assets/sf_metadata/{name}.yaml` location,
+#' containing metadata for when the file is read.
+#'
 #' @param x the workspace object
 #' @param dataset the data.frame or sf to store in the workspace.
-#' @param name name associated with the data.frame, if an workspace file with this name exists
-#' already it will be replaced.
+#' @param name name associated with the data.frame, if a workspace file with this name exists
+#' already it will be replaced. The name is translated to ascii using
+#' [stringi::stri_trans_general()] to avoid file naming issues.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
-#' @details
-#'
-#' If the input dataset is `sf` then a metadata yaml file is also written to the workspace
-#' in the `assets/sf_metadata/{name}.yaml` location. This contains the `sf` column name
-#' and the CRS that can be overidden when writing .gpkg data to disk.
-#'
+#' @return Returns the workspace object passed to `x`, now containing the new dataset.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -105,7 +116,7 @@ store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%
 
 #' @export
 #' @importFrom yaml write_yaml
-#' @title Store a raster dataset into a workspace
+#' @title Store a raster dataset in a workspace
 #' @description
 #' Store a SpatRaster object as a TIFF file into an existing workspace.
 #' @param x the workspace object
@@ -113,6 +124,7 @@ store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%
 #' @param name name associated with the SpatRaster, if a workspace file with this name exists
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
+#' @return Returns the workspace object passed to `x`, now containing the new raster file.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -184,7 +196,7 @@ store_dataset.SpatRaster <- function(x, dataset, name, timestamp = format(Sys.ti
 #' @param x The workspace object.
 #' @param json_str The JSON string to save in the workspace.
 #' @param filename The name of the file used to store the JSON string in the workspace.
-#' @param name name associated with the object, if an workspace file with this name exists
+#' @param name name associated with the object, if a workspace file with this name exists
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the JSON file will be stored.
@@ -266,7 +278,7 @@ store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = f
 #' @param x The workspace object.
 #' @param obj The R object to save as an RDS file.
 #' @param filename The name of the file used to store the RDS file in the workspace.
-#' @param name name associated with the object, if an workspace file with this name exists
+#' @param name name associated with the object, if a workspace file with this name exists
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the RDS file will be stored.
@@ -346,7 +358,7 @@ store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the YAML file will be stored.
-#' @return return the workspace object
+#' @return return the workspace object with new YAML file.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")

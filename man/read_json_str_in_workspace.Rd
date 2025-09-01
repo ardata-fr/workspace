@@ -13,6 +13,9 @@ read_json_str_in_workspace(x, name, subdir = NULL)
 
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
+\value{
+a character string containing the JSON string.
+}
 \description{
 Read a JSON file a dataset stored as a text file
 in a workspace.

@@ -16,19 +16,35 @@ store_dataset(
 
 \item{dataset}{the data.frame or sf to store in the workspace.}
 
-\item{name}{name associated with the data.frame, if an workspace file with this name exists
-already it will be replaced.}
+\item{name}{name associated with the data.frame, if a workspace file with this name exists
+already it will be replaced. The name is translated to ascii using
+\code{\link[stringi:stri_trans_general]{stringi::stri_trans_general()}} to avoid file naming issues.}
 
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }
+\value{
+Returns the workspace object passed to \code{x}, now containing the new dataset.
+}
 \description{
-Store a dataset as a parquet file into an existing workspace.
+Store a dataset in an existing workspace. The file format used depends on the
+class of dataset.
+\itemize{
+\item \code{data.frame} is written as a Parquet using the \code{arrow} package.
+\item \code{sf} is written as a geopackage file (.gpkg) using the \code{sf} package.
+\item \code{splatRaster} is written as a TIFF file (.tiff) format using \code{terra} package.
 }
-\details{
-If the input dataset is \code{sf} then a metadata yaml file is also written to the workspace
-in the \verb{assets/sf_metadata/\{name\}.yaml} location. This contains the \code{sf} column name
-and the CRS that can be overidden when writing .gpkg data to disk.
 }
+\section{Geospatial data}{
+
+
+To store raster data, ensure  that \code{terra} is installed. To store geospatial vector
+and polygon data, ensure that \code{sf} is installed.
+
+Storing geospatial vector and polygon data will also create an accompanying
+metadata yaml file in the \verb{assets/sf_metadata/\{name\}.yaml} location,
+containing metadata for when the file is read.
+}
+
 \examples{
 library(workspace)
 dir_tmp <- tempfile(pattern = "ws")

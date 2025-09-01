@@ -14,6 +14,9 @@ workspace_bind(x, y, replace = FALSE)
 \item{replace}{scalar logical, set to TRUE if you want to
 overwrite existing elements.}
 }
+\value{
+workspace object resulting from bind operation.
+}
 \description{
 Bind a workspace into another workspace.
 }

@@ -11,6 +11,9 @@ read_raster_in_workspace(x, name)
 
 \item{name}{name of the raster dataset stored in the workspace}
 }
+\value{
+a \code{splatRaster} object
+}
 \description{
 Read a raster dataset stored as a TIFF file in a workspace.
 }

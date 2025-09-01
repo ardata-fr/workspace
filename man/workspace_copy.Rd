@@ -9,6 +9,9 @@ workspace_copy(x)
 \arguments{
 \item{x}{the workspace to copy}
 }
+\value{
+New workspace copy
+}
 \description{
 Clone/Copy a workspace. This function is necessary as
 assignment would not change internal directory that is certainly

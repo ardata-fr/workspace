@@ -7,6 +7,7 @@
 #' @param name name of the object stored in the workspace
 #' @param type content type
 #' @param subdir Optional subdirectory used for the asset to retrieve
+#' @return workspace object resulting from operation.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/store.R
 \name{store_raster}
 \alias{store_raster}
-\title{Store a raster dataset into a workspace}
+\title{Store a raster dataset in a workspace}
 \usage{
 store_raster(
   x,
@@ -20,6 +20,9 @@ store_raster(
 already it will be replaced.}
 
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
+}
+\value{
+Returns the workspace object passed to \code{x}, now containing the new raster file.
 }
 \description{
 Store a SpatRaster object as a TIFF file into an existing workspace.

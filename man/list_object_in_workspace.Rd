@@ -9,6 +9,9 @@ list_object_in_workspace(x)
 \arguments{
 \item{x}{the workspace}
 }
+\value{
+Tibble listing workspace contents.
+}
 \description{
 List all objects stored in a workspace object and
 returns results as a tibble.

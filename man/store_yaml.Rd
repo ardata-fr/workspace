@@ -28,7 +28,7 @@ already it will be replaced.}
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }
 \value{
-return the workspace object
+return the workspace object with new YAML file.
 }
 \description{
 Saves a list object as a YAML file in an existing workspace.

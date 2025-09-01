@@ -4,6 +4,7 @@
 #' List all objects stored in a workspace object and
 #' returns results as a tibble.
 #' @param x the workspace
+#' @return Tibble listing workspace contents.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -25,6 +26,8 @@ list_object_in_workspace <- function(x) {
 #' in a workspace.
 #' @param x the workspace
 #' @param name name of the dataset stored in the workspace
+#' @return a `tibble` if the dataset is stored as parquet, and a
+#' `sf` object if it is stored as a geospatial dataset.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -82,6 +85,7 @@ read_dataset_in_workspace <- function(x, name) {
 #' Read a raster dataset stored as a TIFF file in a workspace.
 #' @param x the workspace object
 #' @param name name of the raster dataset stored in the workspace
+#' @return a `splatRaster` object
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -142,6 +146,7 @@ read_raster_in_workspace <- function(x, name) {
 #' @param x the workspace
 #' @param name name of the object stored in the workspace
 #' @param subdir Optional subdirectory used for the asset to retrieve
+#' @return the R object
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -183,6 +188,7 @@ read_rds_in_workspace <- function(x, name, subdir = NULL) {
 #' @param x the workspace
 #' @param name name associated with the json file stored in the workspace
 #' @param subdir Optional subdirectory used for the asset to retrieve
+#' @return a character string containing the JSON string.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -236,6 +242,7 @@ read_json_str_in_workspace <- function(x, name, subdir = NULL) {
 #' @param x the workspace
 #' @param name name associated with the YAML file stored in the workspace
 #' @param subdir Optional subdirectory used for the asset to retrieve
+#' @return a list
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -295,6 +302,7 @@ read_yaml_in_workspace <- function(x, name, subdir = NULL) {
 #' @param name name of the object stored in the workspace
 #' @param type content type
 #' @param subdir Optional subdirectory used for the asset to retrieve
+#' @return character string of timestamp
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")

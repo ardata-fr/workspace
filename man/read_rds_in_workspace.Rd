@@ -13,6 +13,9 @@ read_rds_in_workspace(x, name, subdir = NULL)
 
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
+\value{
+the R object
+}
 \description{
 Read an R Object from a dataset stored as a RDS file
 in a workspace.
