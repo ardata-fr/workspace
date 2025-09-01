@@ -35,11 +35,18 @@ This package is aimed at developers and analysts seeking to standardize data man
 
 ## Installation
 
+You can install from CRAN with: 
+
+``` r
+install.packages("pak")
+```
+
 You can install the development version of workspace from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("ardata-fr/workspace")
+remotes::install_github("ardata-fr/workspace")
+# or 
+# pak::pak("ardata-fr/workspace")
 ```
 
 ## Example of workspace creation

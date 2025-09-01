@@ -1,11 +1,11 @@
+
 # workspace 0.1.3
 
-## Features 
+## Features
 
-- Add support for storing and reading yaml files
-- Add support for storing and reading sf datasets (geospatial) using 
-gpkg file format.
-
+- Add support for storing and reading yaml files using the `yaml` package.
+- Add support for storing and reading geospatial datasets using the `sf` package.
+- Add support for storing and reading raster datasets using the `terra` package.
 
 ## Tests
 
