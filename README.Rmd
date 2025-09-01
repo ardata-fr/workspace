@@ -15,15 +15,21 @@ knitr::opts_chunk$set(
 
 # workspace
 
-`workspace` is an R package designed to simplify the creation and management of workspaces. Its main goal is to provide a standardized solution for organizing and sharing data in applications that require workspace management.
+`workspace` gives you the tools to create, store, read and manage structured collections of datasets and other objects using a 'workspace', then bundle it into a compressed archive (zip). 
+
+The package's main goal is to provide a standardized solution for organizing and sharing data in applications that require workspace management. Using open and interoperable formats makes it possible to exchange bundled data from 'R' to other languages such as 'Python' or 'Julia'. 
+
+Multiple formats are supported 'Parquet', 'JSON', 'yaml', geospatial and raster data are supported.
 
 This package is aimed at developers and analysts seeking to standardize data management in multi-environment or cross-application contexts. With `workspace`, creating, manipulating, and sharing organized archives becomes straightforward.
 
 ## Key features
 
 - Generation of structured archives:
-  - Supports adding datasets in parquet format.
-  - Enables storing JSON files for semi-structured data.
+  - Supports adding datasets in parquet
+  - Supports geosptial data in geopackage format for vector or polygon data, and
+  tiff format for raster data.
+  - Enables storing JSON and YAML files for semi-structured data.
   - Handles R objects stored in RDS format.
 
 - Enhanced interoperability:

@@ -1,16 +1,17 @@
 Package: workspace
-Title: Manage, Read, Write and Transfer Diverse Objects
+Title: Manage collections of datasets and objects
 Version: 0.1.3
 Authors@R: c(
     person("Eli", "Daniels", , "eli.daniels@ardata.fr", role = c("aut", "cre")),
     person("David", "Gohel", , "david.gohel@ardata.fr", role = c("aut")),
     person("ArData", role = c("cph", "fnd"))
   )
-Description: Ease the management of an assortment of 
-    'R' objects (a 'workspace') by offering tools that support organizing and 
-    accessing data across different formats. It includes functions to create, 
-    pack, and unpack workspaces, as well as utilities for reading and storing 
-    datasets and other objects in a workspace. 
+Description: Create, store, read and manage structured collections of datasets 
+    and other objects using a 'workspace', then bundle it into a compressed archive 
+    (zip). Using open and interoperable formats makes it possible to exchange 
+    bundled data from 'R' to other languages such as 'Python' or 'Julia'. 
+    Multiple formats are supported 'Parquet', 'JSON', 'yaml', geospatial and 
+    raster data are supported.
 License: MIT + file LICENSE
 Imports:
     arrow,

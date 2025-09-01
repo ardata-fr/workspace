@@ -3,10 +3,18 @@
 
 # workspace
 
-`workspace` is an R package designed to simplify the creation and
-management of workspaces. Its main goal is to provide a standardized
-solution for organizing and sharing data in applications that require
-workspace management.
+`workspace` gives you the tools to create, store, read and manage
+structured collections of datasets and other objects using a
+‘workspace’, then bundle it into a compressed archive (zip).
+
+The package’s main goal is to provide a standardized solution for
+organizing and sharing data in applications that require workspace
+management. Using open and interoperable formats makes it possible to
+exchange bundled data from ‘R’ to other languages such as ‘Python’ or
+‘Julia’.
+
+Multiple formats are supported ‘Parquet’, ‘JSON’, ‘yaml’, geospatial and
+raster data are supported.
 
 This package is aimed at developers and analysts seeking to standardize
 data management in multi-environment or cross-application contexts. With
@@ -16,8 +24,10 @@ becomes straightforward.
 ## Key features
 
 - Generation of structured archives:
-  - Supports adding datasets in parquet format.
-  - Enables storing JSON files for semi-structured data.
+  - Supports adding datasets in parquet
+  - Supports geosptial data in geopackage format for vector or polygon
+    data, and tiff format for raster data.
+  - Enables storing JSON and YAML files for semi-structured data.
   - Handles R objects stored in RDS format.
 - Enhanced interoperability:
   - Provides a well-defined and consistent structure for organizing
@@ -28,12 +38,19 @@ becomes straightforward.
 
 ## Installation
 
+You can install from CRAN with:
+
+``` r
+install.packages("pak")
+```
+
 You can install the development version of workspace from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("ardata-fr/workspace")
+remotes::install_github("ardata-fr/workspace")
+# or 
+# pak::pak("ardata-fr/workspace")
 ```
 
 ## Example of workspace creation
@@ -65,7 +82,7 @@ z <- store_json(
 # pack workspace as a zip to share it
 workspace_zip_file <- tempfile(fileext = ".zip")
 pack_workspace(x = z, file = workspace_zip_file)
-#> [1] "/private/var/folders/08/2qdvv0q95wn52xy6mxgj340r0000gn/T/RtmpDu03jK/file79c764187a07.zip"
+#> [1] "C:/Users/EliDaniels/AppData/Local/Temp/RtmpSW1Piq/file71d87d2c26ba.zip"
 ```
 
 ## Example of workspace data extraction
@@ -79,8 +96,8 @@ list_object_in_workspace(z)
 #> # A tibble: 3 × 5
 #>   file                          name         subdir   type    timestamp         
 #>   <chr>                         <chr>        <chr>    <chr>   <chr>             
-#> 1 datasets/iris_dataset.parquet iris_dataset datasets dataset 2025-01-11 12:30:…
-#> 2 datasets/mtcars.parquet       mtcars       datasets dataset 2025-01-11 12:30:…
+#> 1 datasets/iris_dataset.parquet iris_dataset datasets dataset 2025-09-01 14:26:…
+#> 2 datasets/mtcars.parquet       mtcars       datasets dataset 2025-09-01 14:26:…
 #> 3 assets/blah/json-example.json json-example blah     json    2023-11-12 11:37:…
 
 dataset <- read_dataset_in_workspace(z, name = "mtcars")
@@ -103,9 +120,8 @@ substr(json_str, 1, 20) |> print()
 
 ## Example Shiny app using workspace
 
-`workspace` can be useful for managing user imported datasets in Shiny
-apps. The example shows how to create, add datasets, pack and unpack the
-user’s workspace.
+`workspace` can be useful for managing datasets in Shiny apps. The
+example shows how to create, add datasets, pack and unpack a workspace.
 
 ``` r
 library(workspace)
