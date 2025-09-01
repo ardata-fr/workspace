@@ -32,3 +32,4 @@ Suggests:
     sf,
     terra
 Config/testthat/edition: 3
+BugReports: https://github.com/ardata-fr/workspace/issues
