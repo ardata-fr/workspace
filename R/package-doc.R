@@ -43,7 +43,7 @@
 #'
 #' Stored objects can be removed with:
 #' -  [rm_object_in_workspace()] for any object
-#' -  [remove_dataset()] for datasets.
+#' -  [delete_dataset()] for datasets
 
 #' @section Workspace management:
 #'

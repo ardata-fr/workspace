@@ -53,7 +53,7 @@ workspace. Each time an object is stored, the timestamp is recorded
 Stored objects can be removed with:
 \itemize{
 \item \code{\link[=rm_object_in_workspace]{rm_object_in_workspace()}} for any object
-\item \code{\link[=remove_dataset]{remove_dataset()}} for datasets.
+\item \code{\link[=delete_dataset]{delete_dataset()}} for datasets
 }
 }
 
