@@ -142,8 +142,9 @@ pack_workspace <- function(x, file) {
 #' @export
 #' @title Unpack a workspace
 #' @description
-#' Unpack a compressed file into a workspace.
+#' Unpack a compressed file into a workspace object.
 #' @param file Packed workspace
+#' @return Object of class workspace.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")

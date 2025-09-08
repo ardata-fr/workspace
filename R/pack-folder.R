@@ -5,6 +5,7 @@
 #' function returns the complete path to target file.
 #' @param folder folder to compress
 #' @param target path of the archive to create
+#' @return Returns path to `target`.
 pack_folder <- function(folder, target) {
   target <- absolute_path(target)
   dir_fi <- dirname(target)
@@ -56,6 +57,7 @@ pack_folder <- function(folder, target) {
 #' function returns the complete path to destination folder.
 #' @param file path of the archive to unzip
 #' @param folder folder to create
+#' @return Path to unpacked folder.
 unpack_folder <- function(file, folder) {
 
   if (!is_string(file)) {

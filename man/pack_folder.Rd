@@ -11,6 +11,9 @@ pack_folder(folder, target)
 
 \item{target}{path of the archive to create}
 }
+\value{
+Returns path to \code{target}.
+}
 \description{
 Compress a folder to a target file. The
 function returns the complete path to target file.

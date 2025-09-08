@@ -9,8 +9,11 @@ unpack_workspace(file)
 \arguments{
 \item{file}{Packed workspace}
 }
+\value{
+Object of class workspace.
+}
 \description{
-Unpack a compressed file into a workspace.
+Unpack a compressed file into a workspace object.
 }
 \examples{
 library(workspace)

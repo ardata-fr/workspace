@@ -11,6 +11,9 @@ unpack_folder(file, folder)
 
 \item{folder}{folder to create}
 }
+\value{
+Path to unpacked folder.
+}
 \description{
 Extract files from a zip file to a folder. The
 function returns the complete path to destination folder.
