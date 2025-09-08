@@ -12,7 +12,7 @@ read_raster_in_workspace(x, name)
 \item{name}{name of the raster dataset stored in the workspace}
 }
 \value{
-a \code{splatRaster} object
+The \code{splatRaster} object that was stored in TIFF format.
 }
 \description{
 Read a raster dataset stored as a TIFF file in a workspace.
@@ -30,6 +30,8 @@ if (requireNamespace("terra", quietly = TRUE)) {
 }
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_dataset_in_workspace}()},

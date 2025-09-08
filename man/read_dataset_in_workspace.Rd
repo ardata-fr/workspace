@@ -12,8 +12,9 @@ read_dataset_in_workspace(x, name)
 \item{name}{name of the dataset stored in the workspace}
 }
 \value{
-a \code{tibble} if the dataset is stored as parquet, and a
-\code{sf} object if it is stored as a geospatial dataset.
+A \code{tibble} if the dataset is stored as parquet, and a
+\code{sf} object if it is stored as a geospatial dataset
+(see \code{\link[=store_dataset]{store_dataset()}} for details).
 }
 \description{
 Read a table from a dataset stored as parquet file
@@ -28,6 +29,8 @@ z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 read_dataset_in_workspace(z, name = "mtcars")
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_json_str_in_workspace}()},

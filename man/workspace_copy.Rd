@@ -46,6 +46,8 @@ z <- store_rds(
 new_z <- workspace_copy(z)
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to manage workspaces: 
 \code{\link{new_workspace}()},
 \code{\link{pack_workspace}()},

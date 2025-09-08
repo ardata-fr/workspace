@@ -23,7 +23,7 @@ already it will be replaced. The name is translated to ascii using
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }
 \value{
-Returns the workspace object passed to \code{x}, now containing the new dataset.
+Returns the \link{workspace} object passed to \code{x} parameter. Called primarily for side effects.
 }
 \description{
 Store a dataset in an existing workspace. The file format used depends on the
@@ -54,6 +54,8 @@ z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 z
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to write in a workspace: 
 \code{\link{delete_dataset}()},
 \code{\link{store_json}()},

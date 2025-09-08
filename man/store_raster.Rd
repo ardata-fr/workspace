@@ -22,7 +22,7 @@ already it will be replaced.}
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }
 \value{
-Returns the workspace object passed to \code{x}, now containing the new raster file.
+Returns the \link{workspace} object passed to \code{x} parameter. Called primarily for side effects.
 }
 \description{
 Store a SpatRaster object as a TIFF file into an existing workspace.
@@ -39,6 +39,8 @@ if (requireNamespace("terra", quietly = TRUE)) {
 }
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to write in a workspace: 
 \code{\link{delete_dataset}()},
 \code{\link{store_dataset}()},

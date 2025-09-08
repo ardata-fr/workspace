@@ -4,7 +4,12 @@
 #' List all objects stored in a workspace object and
 #' returns results as a tibble.
 #' @param x the workspace
-#' @return Tibble listing workspace contents.
+#' @return Tibble object containing the following columns:
+#' -  `file`: file path to stored object relative to workspace directory
+#' -  `name`: name given to object upon storing
+#' -  `subdir`: subdirectory of file, such as 'datasets' or 'assets'.
+#' -  `type`: file type such as 'dataset', 'geospatial', 'yaml', etc...
+#' -  `timestamp`: timestamp of last modification
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -13,6 +18,7 @@
 #' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 #' list_object_in_workspace(z)
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 list_object_in_workspace <- function(x) {
   objects_descriptions <- read_objects_description(x)
   objects_descriptions
@@ -26,8 +32,9 @@ list_object_in_workspace <- function(x) {
 #' in a workspace.
 #' @param x the workspace
 #' @param name name of the dataset stored in the workspace
-#' @return a `tibble` if the dataset is stored as parquet, and a
-#' `sf` object if it is stored as a geospatial dataset.
+#' @return A `tibble` if the dataset is stored as parquet, and a
+#' `sf` object if it is stored as a geospatial dataset
+#' (see [store_dataset()] for details).
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -36,6 +43,7 @@ list_object_in_workspace <- function(x) {
 #' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 #' read_dataset_in_workspace(z, name = "mtcars")
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 read_dataset_in_workspace <- function(x, name) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% c("dataset", "geospatial"), ]
@@ -85,7 +93,7 @@ read_dataset_in_workspace <- function(x, name) {
 #' Read a raster dataset stored as a TIFF file in a workspace.
 #' @param x the workspace object
 #' @param name name of the raster dataset stored in the workspace
-#' @return a `splatRaster` object
+#' @return The `splatRaster` object that was stored in TIFF format.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -98,6 +106,7 @@ read_dataset_in_workspace <- function(x, name) {
 #'   retrieved_raster
 #' }
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 read_raster_in_workspace <- function(x, name) {
 
   if (!requireNamespace("terra", quietly = TRUE)) {
@@ -146,7 +155,7 @@ read_raster_in_workspace <- function(x, name) {
 #' @param x the workspace
 #' @param name name of the object stored in the workspace
 #' @param subdir Optional subdirectory used for the asset to retrieve
-#' @return the R object
+#' @return the R object that was stored as an Rds file.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -161,6 +170,7 @@ read_raster_in_workspace <- function(x, name) {
 #' )
 #' read_rds_in_workspace(z, name = "obj")
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 read_rds_in_workspace <- function(x, name, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "rds", ]
@@ -188,7 +198,7 @@ read_rds_in_workspace <- function(x, name, subdir = NULL) {
 #' @param x the workspace
 #' @param name name associated with the json file stored in the workspace
 #' @param subdir Optional subdirectory used for the asset to retrieve
-#' @return a character string containing the JSON string.
+#' @return A character string containing the JSON string.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -209,6 +219,7 @@ read_rds_in_workspace <- function(x, name, subdir = NULL) {
 #' )
 #' read_json_str_in_workspace(z, "an_example")
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 read_json_str_in_workspace <- function(x, name, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% "json", ]
@@ -242,7 +253,7 @@ read_json_str_in_workspace <- function(x, name, subdir = NULL) {
 #' @param x the workspace
 #' @param name name associated with the YAML file stored in the workspace
 #' @param subdir Optional subdirectory used for the asset to retrieve
-#' @return a list
+#' @return A list object as read from the stored YAML file.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -268,6 +279,7 @@ read_json_str_in_workspace <- function(x, name, subdir = NULL) {
 #' )
 #' read_yaml_in_workspace(z, "app_config", subdir = "configs")
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 read_yaml_in_workspace <- function(x, name, subdir = NULL) {
 
   objs <- list_object_in_workspace(x)
@@ -295,14 +307,15 @@ read_yaml_in_workspace <- function(x, name, subdir = NULL) {
 
 
 #' @export
-#' @title Read Timestamp associated with a content of a Workspace.
+#' @title Read Timestamp associated with an object in a workspace.
 #' @description
-#' Read a timestamp associated with a content located in a Workspace.
+#' Read a timestamp associated with an object in a workspace.
 #' @param x the workspace
 #' @param name name of the object stored in the workspace
 #' @param type content type
 #' @param subdir Optional subdirectory used for the asset to retrieve
-#' @return character string of timestamp
+#' @return A character string corresponding to the timestamp (date last modified)
+#' of the stored object.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -317,6 +330,7 @@ read_yaml_in_workspace <- function(x, name, subdir = NULL) {
 #' )
 #' read_timestamp(z, name = "obj", type = "rds", subdir = "r-object")
 #' @family functions to read in a workspace
+#' @seealso [workspace] for package documentation
 read_timestamp <- function(x, name, type, subdir = NULL) {
   objs <- list_object_in_workspace(x)
   objs <- objs[objs$type %in% type, ]

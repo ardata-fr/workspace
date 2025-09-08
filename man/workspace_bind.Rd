@@ -49,6 +49,8 @@ new_x <- workspace_bind(x, z)
 new_x
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to manage workspaces: 
 \code{\link{new_workspace}()},
 \code{\link{pack_workspace}()},

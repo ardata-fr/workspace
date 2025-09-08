@@ -10,7 +10,14 @@ list_object_in_workspace(x)
 \item{x}{the workspace}
 }
 \value{
-Tibble listing workspace contents.
+Tibble object containing the following columns:
+\itemize{
+\item \code{file}: file path to stored object relative to workspace directory
+\item \code{name}: name given to object upon storing
+\item \code{subdir}: subdirectory of file, such as 'datasets' or 'assets'.
+\item \code{type}: file type such as 'dataset', 'geospatial', 'yaml', etc...
+\item \code{timestamp}: timestamp of last modification
+}
 }
 \description{
 List all objects stored in a workspace object and
@@ -25,6 +32,8 @@ z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 list_object_in_workspace(z)
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{read_dataset_in_workspace}()},
 \code{\link{read_json_str_in_workspace}()},

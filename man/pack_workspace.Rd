@@ -45,6 +45,8 @@ file <- tempfile(fileext = ".zip")
 pack_workspace(x = z, file = file)
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to manage workspaces: 
 \code{\link{new_workspace}()},
 \code{\link{unpack_workspace}()},

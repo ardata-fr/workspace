@@ -14,7 +14,7 @@ read_yaml_in_workspace(x, name, subdir = NULL)
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
 \value{
-a list
+A list object as read from the stored YAML file.
 }
 \description{
 Read a YAML file stored as a list object in a workspace.
@@ -46,6 +46,8 @@ z <- store_yaml(
 read_yaml_in_workspace(z, "app_config", subdir = "configs")
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_dataset_in_workspace}()},

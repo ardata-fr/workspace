@@ -14,7 +14,7 @@ read_rds_in_workspace(x, name, subdir = NULL)
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
 \value{
-the R object
+the R object that was stored as an Rds file.
 }
 \description{
 Read an R Object from a dataset stored as a RDS file
@@ -35,6 +35,8 @@ z <- store_rds(
 read_rds_in_workspace(z, name = "obj")
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_dataset_in_workspace}()},

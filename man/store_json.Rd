@@ -28,7 +28,7 @@ already it will be replaced.}
 \item{timestamp}{A timestamp string to associate with the entry in the workspace.}
 }
 \value{
-return the workspace object
+Returns the \link{workspace} object passed to \code{x} parameter. Called primarily for side effects.
 }
 \description{
 Saves a JSON string as a file in an existing workspace.
@@ -56,6 +56,8 @@ z <- store_json(
 z
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to write in a workspace: 
 \code{\link{delete_dataset}()},
 \code{\link{store_dataset}()},

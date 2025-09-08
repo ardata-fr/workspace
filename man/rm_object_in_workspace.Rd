@@ -16,7 +16,7 @@ rm_object_in_workspace(x, name, type, subdir = NULL)
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
 \value{
-workspace object resulting from operation.
+Returns the \link{workspace} object passed to \code{x} parameter. Called primarily for side effects.
 }
 \description{
 Remove an object stored in a workspace.
@@ -51,4 +51,7 @@ rm_object_in_workspace(
   type = "rds",
   subdir = "r-object"
 )
+}
+\seealso{
+\link{workspace} for package documentation
 }

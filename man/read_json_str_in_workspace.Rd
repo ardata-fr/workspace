@@ -14,7 +14,7 @@ read_json_str_in_workspace(x, name, subdir = NULL)
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
 \value{
-a character string containing the JSON string.
+A character string containing the JSON string.
 }
 \description{
 Read a JSON file a dataset stored as a text file
@@ -41,6 +41,8 @@ z <- store_json(
 read_json_str_in_workspace(z, "an_example")
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_dataset_in_workspace}()},

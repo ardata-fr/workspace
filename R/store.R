@@ -26,7 +26,7 @@
 #' already it will be replaced. The name is translated to ascii using
 #' [stringi::stri_trans_general()] to avoid file naming issues.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
-#' @return Returns the workspace object passed to `x`, now containing the new dataset.
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -35,6 +35,7 @@
 #' z <- store_dataset(x = z, dataset = mtcars, name = "mtcars")
 #' z
 #' @family functions to write in a workspace
+#' @seealso [workspace] for package documentation
 store_dataset <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
   UseMethod("store_dataset", dataset)
 }
@@ -124,7 +125,7 @@ store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%
 #' @param name name associated with the SpatRaster, if a workspace file with this name exists
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
-#' @return Returns the workspace object passed to `x`, now containing the new raster file.
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -136,6 +137,7 @@ store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%
 #'   z
 #' }
 #' @family functions to write in a workspace
+#' @seealso [workspace] for package documentation
 store_raster <- function(x, dataset, name, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   if (!requireNamespace("terra", quietly = TRUE)) {
@@ -200,7 +202,7 @@ store_dataset.SpatRaster <- function(x, dataset, name, timestamp = format(Sys.ti
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the JSON file will be stored.
-#' @return return the workspace object
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -219,6 +221,7 @@ store_dataset.SpatRaster <- function(x, dataset, name, timestamp = format(Sys.ti
 #' )
 #' z
 #' @family functions to write in a workspace
+#' @seealso [workspace] for package documentation
 store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   if (!is_string(json_str)) {
@@ -282,7 +285,7 @@ store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = f
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the RDS file will be stored.
-#' @return return the workspace object
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -296,6 +299,7 @@ store_json <- function(x, json_str, filename, name = NULL, subdir, timestamp = f
 #' )
 #' z
 #' @family functions to write in a workspace
+#' @seealso [workspace] for package documentation
 store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   if (!is_string(filename)) {
@@ -358,7 +362,7 @@ store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(
 #' already it will be replaced.
 #' @param timestamp A timestamp string to associate with the entry in the workspace.
 #' @param subdir A subdirectory within the asset directory where the YAML file will be stored.
-#' @return return the workspace object with new YAML file.
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -384,6 +388,7 @@ store_rds <- function(x, obj, filename, name = NULL, subdir, timestamp = format(
 #' )
 #' z
 #' @family functions to write in a workspace
+#' @seealso [workspace] for package documentation
 store_yaml <- function(x, list, filename, name = NULL, subdir, timestamp = format(Sys.time(), "%Y-%m-%d %H:%M:%S")) {
 
   if (!inherits(list, 'list')) {

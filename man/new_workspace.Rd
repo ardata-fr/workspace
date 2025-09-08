@@ -22,6 +22,8 @@ z <- new_workspace()
 z
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to manage workspaces: 
 \code{\link{pack_workspace}()},
 \code{\link{unpack_workspace}()},

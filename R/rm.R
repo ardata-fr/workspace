@@ -7,7 +7,7 @@
 #' @param name name of the object stored in the workspace
 #' @param type content type
 #' @param subdir Optional subdirectory used for the asset to retrieve
-#' @return workspace object resulting from operation.
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -38,6 +38,7 @@
 #'   type = "rds",
 #'   subdir = "r-object"
 #' )
+#' @seealso [workspace] for package documentation
 rm_object_in_workspace <- function(x, name, type, subdir = NULL) {
 
   objects_desc <- list_object_in_workspace(x)
@@ -90,7 +91,7 @@ rm_object_in_workspace <- function(x, name, type, subdir = NULL) {
 #' This function removes the dataset file and updates the workspace's object descriptions.
 #' @param x The workspace object.
 #' @param data_name The name of the dataset to delete from the workspace.
-#' @return return the workspace object
+#' @return Returns the [workspace] object passed to `x` parameter. Called primarily for side effects.
 #' @examples
 #' library(workspace)
 #' dir_tmp <- tempfile(pattern = "ws")
@@ -100,6 +101,7 @@ rm_object_in_workspace <- function(x, name, type, subdir = NULL) {
 #' z <- delete_dataset(x = z, data_name = "iris_dataset")
 #' z
 #' @family functions to write in a workspace
+#' @seealso [workspace] for package documentation
 delete_dataset <- function(x, data_name) {
 
   base_file <- stri_trans_general(data_name, id = "latin-ascii")

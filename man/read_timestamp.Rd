@@ -2,7 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{read_timestamp}
 \alias{read_timestamp}
-\title{Read Timestamp associated with a content of a Workspace.}
+\title{Read Timestamp associated with an object in a workspace.}
 \usage{
 read_timestamp(x, name, type, subdir = NULL)
 }
@@ -16,10 +16,11 @@ read_timestamp(x, name, type, subdir = NULL)
 \item{subdir}{Optional subdirectory used for the asset to retrieve}
 }
 \value{
-character string of timestamp
+A character string corresponding to the timestamp (date last modified)
+of the stored object.
 }
 \description{
-Read a timestamp associated with a content located in a Workspace.
+Read a timestamp associated with an object in a workspace.
 }
 \examples{
 library(workspace)
@@ -36,6 +37,8 @@ z <- store_rds(
 read_timestamp(z, name = "obj", type = "rds", subdir = "r-object")
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to read in a workspace: 
 \code{\link{list_object_in_workspace}()},
 \code{\link{read_dataset_in_workspace}()},

@@ -12,7 +12,7 @@ delete_dataset(x, data_name)
 \item{data_name}{The name of the dataset to delete from the workspace.}
 }
 \value{
-return the workspace object
+Returns the \link{workspace} object passed to \code{x} parameter. Called primarily for side effects.
 }
 \description{
 Delete a dataset stored in a workspace.
@@ -28,6 +28,8 @@ z <- delete_dataset(x = z, data_name = "iris_dataset")
 z
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to write in a workspace: 
 \code{\link{store_dataset}()},
 \code{\link{store_json}()},

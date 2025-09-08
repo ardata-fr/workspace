@@ -46,6 +46,8 @@ z <- unpack_workspace(file = file)
 z
 }
 \seealso{
+\link{workspace} for package documentation
+
 Other functions to manage workspaces: 
 \code{\link{new_workspace}()},
 \code{\link{pack_workspace}()},
