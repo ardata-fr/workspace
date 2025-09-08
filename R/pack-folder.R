@@ -32,18 +32,16 @@ pack_folder <- function(folder, target) {
     }
   }
 
-  curr_wd <- getwd()
-  setwd(folder)
   tryCatch(
     zip::zipr(
-      zipfile = target, include_directories = FALSE,
-      files = list.files(path = ".", all.files = FALSE), recurse = TRUE
+      zipfile = target,
+      include_directories = FALSE,
+      files = list.files(path = ".", all.files = FALSE),
+      recurse = TRUE,
+      root = folder
     ),
     error = function(e) {
       cli_abort("Could not write {.path target}.")
-    },
-    finally = {
-      setwd(curr_wd)
     }
   )
 
