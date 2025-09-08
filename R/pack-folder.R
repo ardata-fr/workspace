@@ -1,4 +1,4 @@
-#' @export
+#' @noRd
 #' @importFrom zip zip
 #' @title Compress a folder
 #' @description Compress a folder to a target file. The
@@ -49,7 +49,7 @@ pack_folder <- function(folder, target) {
   target
 }
 
-#' @export
+#' @noRd
 #' @importFrom zip unzip
 #' @importFrom cli cli_abort
 #' @title Extract files from a zip file
