@@ -66,7 +66,7 @@ read_dataset_in_workspace <- function(x, name) {
       cli_abort("{.val sf} package must be installed to read geospatial datasets.")
     }
 
-    geo_sf <- sf::st_read(file, geometry_column = "geom", quiet = TRUE)
+    geo_sf <- sf::read_sf(file, geometry_column = "geom", quiet = TRUE)
 
     # Using gpkg means geometry col is written as geom (not ideal)
     # https://github.com/r-spatial/sf/issues/719
