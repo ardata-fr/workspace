@@ -104,9 +104,15 @@ store_dataset.sf <- function(x, dataset, name, timestamp = format(Sys.time(), "%
    # Store metadata for read_dataset_in_workspace()
   # Using gpkg means geometry col is written as geom (not ideal)
   # https://github.com/r-spatial/sf/issues/719
+  # Get AGR attribute and preserve names
+  agr_attr <- sf::st_agr(dataset)
   sf_metadata = list(
     sf_column = attr(dataset, "sf_column"),
-    crs = sf::st_crs(dataset)$input
+    crs = sf::st_crs(dataset)$input,
+    agr = list(
+      values = as.character(agr_attr),
+      names = names(agr_attr)
+    )
   )
   yaml_file <- gsub("\\.gpkg$", ".yaml", base_file)
   yaml_file <- file.path(x$dir, .assets_directory, "sf_metadata", yaml_file)

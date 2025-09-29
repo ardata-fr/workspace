@@ -76,6 +76,15 @@ read_dataset_in_workspace <- function(x, name) {
       metadata <- yaml::read_yaml(yaml_abs)
       sf::st_geometry(geo_sf) <- metadata$sf_column
       sf::st_crs(geo_sf) <- metadata$crs
+
+      # Restore AGR attributes if they exist in metadata
+      if (!is.null(metadata$agr) && !is.null(metadata$agr$values)) {
+        # Convert character vector back to named factor with proper levels
+        agr_factor <- factor(metadata$agr$values, levels = c("constant", "aggregate", "identity"))
+        names(agr_factor) <- metadata$agr$names
+        sf::st_agr(geo_sf) <- agr_factor
+      }
+
       geo_sf
     } else {
       cli_warn(paste(

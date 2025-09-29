@@ -1,6 +1,6 @@
 Package: workspace
 Title: Manage Collections of Datasets and Objects
-Version: 0.1.6.001
+Version: 0.1.6.002
 Authors@R: c(
     person("Eli", "Daniels", , "eli.daniels@ardata.fr", role = c("aut", "cre")),
     person("David", "Gohel", , "david.gohel@ardata.fr", role = "aut"),
@@ -28,7 +28,8 @@ Imports:
 Suggests: 
     sf,
     terra,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    jsonlite
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
