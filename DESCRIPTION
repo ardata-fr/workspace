@@ -1,6 +1,6 @@
 Package: workspace
 Title: Manage Collections of Datasets and Objects
-Version: 0.1.6.002
+Version: 0.1.6.003
 Authors@R: c(
     person("Eli", "Daniels", , "eli.daniels@ardata.fr", role = c("aut", "cre")),
     person("David", "Gohel", , "david.gohel@ardata.fr", role = "aut"),
