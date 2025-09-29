@@ -94,6 +94,7 @@ with functions from this package, not manually.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/ardata-fr/workspace}
   \item Report bugs at \url{https://github.com/ardata-fr/workspace/issues}
 }
 

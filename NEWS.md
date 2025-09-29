@@ -1,4 +1,24 @@
 
+# workspace 0.1.6
+
+## Features
+
+- In `store_dataset()` method for sf objects, now preserves `agr` and `sf_column` 
+and CRS when storing spatial sf datasets.
+
+## Fixes 
+
+- Column names with spaces now preserved when reading sf datasets from workspace.
+
+## Tests
+
+- Improve round-trip test coverage to ensure what is stored in a workspace is 
+the same as what is read.
+
+# workspace 0.1.5
+
+- CRAN release
+
 # workspace 0.1.3
 
 ## Features

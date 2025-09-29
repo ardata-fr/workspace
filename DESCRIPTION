@@ -1,6 +1,6 @@
 Package: workspace
 Title: Manage Collections of Datasets and Objects
-Version: 0.1.6.003
+Version: 0.1.6
 Authors@R: c(
     person("Eli", "Daniels", , "eli.daniels@ardata.fr", role = c("aut", "cre")),
     person("David", "Gohel", , "david.gohel@ardata.fr", role = "aut"),
@@ -13,6 +13,7 @@ Description: Create, store, read and manage structured collections of
     'Python' or 'Julia'.  Multiple formats are supported 'Parquet',
     'JSON', 'yaml', spatial data and raster data are supported.
 License: MIT + file LICENSE
+URL: https://github.com/ardata-fr/workspace
 BugReports: https://github.com/ardata-fr/workspace/issues
 Imports:
     arrow,
@@ -34,3 +35,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+
