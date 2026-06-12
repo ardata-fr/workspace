@@ -58,11 +58,11 @@ z
 \seealso{
 \link{workspace} for package documentation
 
-Other functions to write in a workspace: 
-\code{\link{delete_dataset}()},
-\code{\link{store_dataset}()},
-\code{\link{store_raster}()},
-\code{\link{store_rds}()},
-\code{\link{store_yaml}()}
+Other functions to write in a workspace:
+\code{\link[=delete_dataset]{delete_dataset()}},
+\code{\link[=store_dataset]{store_dataset()}},
+\code{\link[=store_raster]{store_raster()}},
+\code{\link[=store_rds]{store_rds()}},
+\code{\link[=store_yaml]{store_yaml()}}
 }
 \concept{functions to write in a workspace}

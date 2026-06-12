@@ -47,10 +47,10 @@ pack_workspace(x = z, file = file)
 \seealso{
 \link{workspace} for package documentation
 
-Other functions to manage workspaces: 
-\code{\link{new_workspace}()},
-\code{\link{unpack_workspace}()},
-\code{\link{workspace_bind}()},
-\code{\link{workspace_copy}()}
+Other functions to manage workspaces:
+\code{\link[=new_workspace]{new_workspace()}},
+\code{\link[=unpack_workspace]{unpack_workspace()}},
+\code{\link[=workspace_bind]{workspace_bind()}},
+\code{\link[=workspace_copy]{workspace_copy()}}
 }
 \concept{functions to manage workspaces}

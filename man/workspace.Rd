@@ -104,6 +104,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Eli Daniels \email{eli.daniels@ardata.fr}
   \item David Gohel \email{david.gohel@ardata.fr}
 }
 

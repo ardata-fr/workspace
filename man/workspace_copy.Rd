@@ -48,10 +48,10 @@ new_z <- workspace_copy(z)
 \seealso{
 \link{workspace} for package documentation
 
-Other functions to manage workspaces: 
-\code{\link{new_workspace}()},
-\code{\link{pack_workspace}()},
-\code{\link{unpack_workspace}()},
-\code{\link{workspace_bind}()}
+Other functions to manage workspaces:
+\code{\link[=new_workspace]{new_workspace()}},
+\code{\link[=pack_workspace]{pack_workspace()}},
+\code{\link[=unpack_workspace]{unpack_workspace()}},
+\code{\link[=workspace_bind]{workspace_bind()}}
 }
 \concept{functions to manage workspaces}

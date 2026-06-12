@@ -39,12 +39,12 @@ read_timestamp(z, name = "obj", type = "rds", subdir = "r-object")
 \seealso{
 \link{workspace} for package documentation
 
-Other functions to read in a workspace: 
-\code{\link{list_object_in_workspace}()},
-\code{\link{read_dataset_in_workspace}()},
-\code{\link{read_json_str_in_workspace}()},
-\code{\link{read_raster_in_workspace}()},
-\code{\link{read_rds_in_workspace}()},
-\code{\link{read_yaml_in_workspace}()}
+Other functions to read in a workspace:
+\code{\link[=list_object_in_workspace]{list_object_in_workspace()}},
+\code{\link[=read_dataset_in_workspace]{read_dataset_in_workspace()}},
+\code{\link[=read_json_str_in_workspace]{read_json_str_in_workspace()}},
+\code{\link[=read_raster_in_workspace]{read_raster_in_workspace()}},
+\code{\link[=read_rds_in_workspace]{read_rds_in_workspace()}},
+\code{\link[=read_yaml_in_workspace]{read_yaml_in_workspace()}}
 }
 \concept{functions to read in a workspace}
